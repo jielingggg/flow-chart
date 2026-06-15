@@ -1,19 +1,21 @@
 <template>
   <Panel v-if="showPanel" position="top-right" class="panel">
     <section class="fields">
-      <img v-if="icon" :src="icon" alt="icon" />
+      <img v-if="icon" class="s-icon" :src="icon" alt="icon" />
+
       <div class="field">
         <label class="label title" for="title">Title:</label>
-        <textarea class="text" id="title" v-model="title" />
+        <textarea class="text" id="title" v-model="title" :readonly="!isFieldEditable" />
       </div>
+
       <div class="field">
         <label class="label desc" for="desc">Desc:</label>
-        <textarea class="text" id="desc" v-model="desc" />
+        <textarea class="text" id="desc" v-model="desc" :readonly="!isFieldEditable" />
       </div>
     </section>
 
     <section class="bottom">
-      <button class="delete" type="button">Delete</button>
+      <button class="delete" type="button" @click="onDelete">Delete</button>
     </section>
   </Panel>
 </template>
@@ -22,7 +24,7 @@
 import { useDataNode } from "@/hooks/useDataNode"
 import { Panel } from "@vue-flow/core"
 
-const { showPanel, icon, title, desc } = useDataNode()
+const { showPanel, icon, title, desc, isFieldEditable, onDelete } = useDataNode()
 </script>
 
 <style lang="scss" scoped>
@@ -40,6 +42,11 @@ const { showPanel, icon, title, desc } = useDataNode()
 
   .fields {
     padding: 1rem;
+
+    .s-icon {
+      margin-bottom: 1rem;
+    }
+
     .field {
       display: flex;
       flex-direction: column;

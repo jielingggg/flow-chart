@@ -1,22 +1,24 @@
 <template>
   <div class="custom-node">
     <Handle type="target" :position="Position.Top" />
+
     <section class="top-section">
-      <img class="icon" :src="icon" alt="icon" />
-      <p v-if="data?.title" class="title">{{ data.title }}</p>
+      <img class="s-icon" :src="icon" alt="icon" />
+      <p v-if="info?.title" class="title">{{ info.title }}</p>
     </section>
+
     <section class="bottom-section">
-      <p v-if="data?.desc" class="desc">{{ data.desc }}</p>
+      <p v-if="info?.desc" class="desc">{{ info.desc }}</p>
     </section>
-    <slot />
+
     <Handle type="source" :position="Position.Bottom" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { getNodeConfig } from "@/hooks/useDataNode"
 import { type TCustomTypes } from "@/types/schemas/dataNodes"
 import { getNodeIcon } from "@/utils/defaultData"
+import { getNodeConfig } from "@/utils/nodes"
 import { Handle, Position, type NodeProps } from "@vue-flow/core"
 import { computed } from "vue"
 
@@ -27,7 +29,7 @@ const props = defineProps<{
 
 const icon = computed(() => getNodeIcon(props.type as TCustomTypes))
 
-const data = computed(() => getNodeConfig(props.type).display(props.data))
+const info = computed(() => getNodeConfig(props.type).display(props.data))
 </script>
 
 <style lang="scss" scoped>
@@ -47,12 +49,6 @@ const data = computed(() => getNodeConfig(props.type).display(props.data))
 
     .title {
       word-break: break-word;
-    }
-
-    .icon {
-      height: 2.4rem;
-      width: 2.6rem;
-      flex-shrink: 0;
     }
   }
 

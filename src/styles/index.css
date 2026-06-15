@@ -15,3 +15,9 @@
   box-shadow: 0 0 0 1px purple;
   padding: 8px;
 }
+
+.s-icon {
+  height: 2.4rem;
+  width: 2.6rem;
+  flex-shrink: 0;
+}

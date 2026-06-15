@@ -1,4 +1,3 @@
-import type { DefaultNodeTypes } from "@vue-flow/core"
 import { z } from "zod"
 
 const NodeId = z.union([z.number(), z.string()])
@@ -59,12 +58,13 @@ export const TDateTimeData = z
     label: z.string().optional(),
     times: z.array(TimeSlot),
     connectors: z.array(NodeId),
-    timezone: z.string(), // TODO:
-    action: z.string(), // TODO:
+    timezone: z.string().optional(),
+    action: z.string().optional(),
   })
   .partial()
 
-const DateTimeConnectorData = z.object({
+export const TDateTimeConnectorData = z.object({
+  label: z.string().optional(),
   connectorType: z.enum(["success", "failure"]),
 })
 
@@ -95,7 +95,7 @@ export const TDateTimeNodeSchema = TCommonDataSchema.extend({
 
 export const TDateTimeConnectorNodeSchema = TCommonDataSchema.extend({
   type: z.literal("dateTimeConnector"),
-  data: DateTimeConnectorData,
+  data: TDateTimeConnectorData,
 })
 
 export const TAddCommentNodeSchema = TCommonDataSchema.extend({
@@ -143,21 +143,4 @@ export function parseFlow(data: unknown): TFlow {
 
 export function safeParseFlow(data: unknown) {
   return TFlowSchema.safeParse(data)
-}
-
-// ─── Displayed Nodes and Edges ────────────────────────────────────────────────
-
-export type TDisplayedNode = {
-  id: string
-  type: keyof DefaultNodeTypes | TCustomTypes
-  customType: TCustomTypes
-  position: { x: number; y: number }
-  data: TFlow[number]["data"]
-}
-
-export type TDisplayedEdge = { id: string; source: string; target: string }
-
-export type TDisplayedGraph = {
-  nodes: TDisplayedNode[]
-  edges: TDisplayedEdge[]
 }

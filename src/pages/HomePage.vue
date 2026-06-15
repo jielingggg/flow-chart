@@ -11,11 +11,15 @@
       <template #node-addComment="customNodeProps">
         <CustomNode :type="customNodeProps.type" :data="customNodeProps.data" />
       </template>
+      <template #node-dateTimeConnector="customNodeProps">
+        <CustomConnector :type="customNodeProps.type" :data="customNodeProps.data" />
+      </template>
     </VueFlow>
   </div>
 </template>
 
 <script setup lang="ts">
+import CustomConnector from "@/components/CustomConnector.vue"
 import CustomNode from "@/components/CustomNode.vue"
 import PanelComponent from "@/components/PanelComponent.vue"
 import { useQueryData } from "@/hooks/query"

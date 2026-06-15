@@ -1,9 +1,5 @@
-import {
-  safeParseFlow,
-  type TDisplayedGraph,
-  type TDisplayedNode,
-  type TFlow,
-} from "@/types/schemas/dataNodes"
+import type { TDisplayedGraph, TDisplayedNode } from "@/types/nodes"
+import { safeParseFlow, type TFlow } from "@/types/schemas/dataNodes"
 import { useQuery } from "@tanstack/vue-query"
 import type { Edge } from "@vue-flow/core"
 import { computed, watch } from "vue"
@@ -89,7 +85,7 @@ export const useQueryData = () => {
       const returnData = {
         ...n,
         id: String(n.id),
-        type: (isStartingNode(n, data) ? "input" : n.type) as TDisplayedNode["customType"],
+        type: (isStartingNode(n, data) ? "input" : n.type) as TDisplayedNode["customType"], // TODO: simplify?
         customType: n.type,
         position: { x, y },
         data: {
