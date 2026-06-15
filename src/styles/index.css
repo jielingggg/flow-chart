@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+/* these are necessary styles for vue flow */
+@import "@vue-flow/core/dist/style.css";
+
+/* this contains the default theme, these are optional styles */
+@import "@vue-flow/core/dist/theme-default.css";
+
+/* Use a purple theme for our custom node */
+.vue-flow__node-custom {
+  background: purple;
+  color: white;
+  border: 1px solid purple;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px purple;
+  padding: 8px;
+}
