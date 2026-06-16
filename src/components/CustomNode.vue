@@ -7,8 +7,8 @@
       <p v-if="info?.title" class="title">{{ info.title }}</p>
     </section>
 
-    <section class="bottom-section">
-      <p v-if="info?.desc" class="desc">{{ info.desc }}</p>
+    <section v-if="info?.desc" class="bottom-section">
+      <p class="desc">{{ info.desc }}</p>
     </section>
 
     <Handle type="source" :position="Position.Bottom" />
@@ -45,7 +45,6 @@ const info = computed(() => getNodeConfig(props.type).display(props.data))
 
   .top-section {
     display: flex;
-    border-bottom: 0.08rem solid black;
 
     .title {
       word-break: break-word;
@@ -53,6 +52,8 @@ const info = computed(() => getNodeConfig(props.type).display(props.data))
   }
 
   .bottom-section {
+    border-top: 0.08rem solid black;
+
     .desc {
       height: 2rem;
       overflow: hidden;
