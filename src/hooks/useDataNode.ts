@@ -1,32 +1,36 @@
+import { EDITABLE_FIELD_TYPES } from "@/constants/nodeTypes"
 import { type TCustomTypes } from "@/types/schemas/dataNodes"
 import { getNodeIcon } from "@/utils/defaultData"
-import { editableFieldTypes, getNodeConfig } from "@/utils/nodes"
-import { useVueFlow } from "@vue-flow/core"
+import { getNodeConfig } from "@/utils/nodes"
+import { useVueFlow, type GraphNode } from "@vue-flow/core"
 import { computed } from "vue"
 
-export const useDataNode = () => {
+export const useDataNode = (node?: GraphNode) => {
   const { getSelectedNodes, updateNodeData, removeNodes } = useVueFlow()
 
-  const selectedNodes = computed(() => getSelectedNodes.value ?? [])
+  const selectedNodes = computed(() => (node ? [node] : (getSelectedNodes.value ?? [])))
+
   const selectedSingleNode = computed(() => selectedNodes.value[0])
   const showPanel = computed(() => selectedNodes.value.length === 1)
 
-  const customType = computed(() => selectedSingleNode.value?.type ?? "")
+  const nodeType = computed(() => (selectedSingleNode.value?.type ?? "") as TCustomTypes)
 
   const nodeDisplay = computed(() =>
-    getNodeConfig(customType.value).display(selectedSingleNode.value?.data),
+    getNodeConfig(nodeType.value).display(selectedSingleNode.value?.data),
   )
 
-  const isFieldEditable = computed(() =>
-    editableFieldTypes.includes(customType.value as TCustomTypes),
-  )
+  const isFieldEditable = computed(() => EDITABLE_FIELD_TYPES.includes(nodeType.value))
 
   const title = computed({
-    get: () => selectedSingleNode.value?.data.label ?? "",
-    set: (value) => {
-      if (isFieldEditable.value) {
-        updateNodeData(selectedSingleNode.value?.id ?? "0", { label: value })
-      }
+    get: () => nodeDisplay.value.title,
+    set: (value: string) => {
+      const id = selectedSingleNode.value?.id
+      if (!id) return
+
+      const currentTitle = nodeDisplay.value.title ?? ""
+      if (value === currentTitle) return
+
+      getNodeConfig(nodeType.value).updateInfo?.(id, "title", value, updateNodeData)
     },
   })
 
@@ -35,15 +39,19 @@ export const useDataNode = () => {
     set: (value: string) => {
       const id = selectedSingleNode.value?.id
       if (!id) return
-      getNodeConfig(customType.value).updateDesc?.(id, value, updateNodeData)
+
+      const currentDesc = nodeDisplay.value.desc ?? ""
+      if (value === currentDesc) return
+
+      getNodeConfig(nodeType.value).updateInfo?.(id, "desc", value, updateNodeData)
     },
   })
 
-  const icon = computed(() => getNodeIcon(customType.value as TCustomTypes))
+  const icon = computed(() => getNodeIcon(nodeType.value))
 
   const onDelete = () => {
     removeNodes(selectedNodes.value)
   }
 
-  return { showPanel, icon, title, desc, isFieldEditable, onDelete }
+  return { nodeDisplay, showPanel, icon, title, desc, isFieldEditable, onDelete }
 }

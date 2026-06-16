@@ -74,8 +74,6 @@ export const TCommonDataSchema = z.object({
   id: NodeId,
   parentId: NodeId,
   name: z.string().optional(),
-  icon: z.string().optional(),
-  desc: z.string().optional(),
 })
 
 export const TTriggerNodeSchema = TCommonDataSchema.extend({

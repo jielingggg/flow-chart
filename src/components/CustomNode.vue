@@ -4,11 +4,11 @@
 
     <section class="top-section">
       <img class="s-icon" :src="icon" alt="icon" />
-      <p v-if="info?.title" class="title">{{ info.title }}</p>
+      <p v-if="title" class="title">{{ title }}</p>
     </section>
 
-    <section v-if="info?.desc" class="bottom-section">
-      <p class="desc">{{ info.desc }}</p>
+    <section v-if="desc" class="bottom-section">
+      <p class="desc">{{ desc }}</p>
     </section>
 
     <Handle type="source" :position="Position.Bottom" />
@@ -16,20 +16,12 @@
 </template>
 
 <script lang="ts" setup>
-import { type TCustomTypes } from "@/types/schemas/dataNodes"
-import { getNodeIcon } from "@/utils/defaultData"
-import { getNodeConfig } from "@/utils/nodes"
-import { Handle, Position, type NodeProps } from "@vue-flow/core"
-import { computed } from "vue"
+import { useDataNode } from "@/hooks/useDataNode"
+import { Handle, Position, useNode } from "@vue-flow/core"
 
-const props = defineProps<{
-  type: string
-  data: NodeProps
-}>()
+const { node } = useNode()
 
-const icon = computed(() => getNodeIcon(props.type as TCustomTypes))
-
-const info = computed(() => getNodeConfig(props.type).display(props.data))
+const { title, desc, icon } = useDataNode(node)
 </script>
 
 <style lang="scss" scoped>

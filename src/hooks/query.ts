@@ -1,8 +1,8 @@
+import { QUERY_CONSTANTS } from "@/constants/query"
 import type { TDisplayedGraph, TDisplayedNode } from "@/types/nodes"
 import { safeParseFlow, type TFlow } from "@/types/schemas/dataNodes"
 import { useQuery } from "@tanstack/vue-query"
-import type { Edge } from "@vue-flow/core"
-import { computed, watch } from "vue"
+import { computed } from "vue"
 
 export const useQueryData = () => {
   const fetchInitialNodes = async () => {
@@ -17,6 +17,7 @@ export const useQueryData = () => {
   }
 
   const { data } = useQuery({
+    ...QUERY_CONSTANTS,
     queryKey: ["dataNodes"],
     queryFn: fetchInitialNodes,
     // queryFn: () => Promise.resolve(sampleData), // TODO: Use sample data for testing
@@ -83,10 +84,10 @@ export const useQueryData = () => {
       const y = depth * 120
 
       const returnData = {
-        ...n,
         id: String(n.id),
-        type: (isStartingNode(n, data) ? "input" : n.type) as TDisplayedNode["customType"], // TODO: simplify?
-        customType: n.type,
+        parentId: n.parentId,
+        type: n.type,
+        name: n.name,
         position: { x, y },
         data: {
           ...n.data,
@@ -94,7 +95,6 @@ export const useQueryData = () => {
         },
       }
 
-      console.log({ returnData })
       return returnData
     })
 
@@ -109,31 +109,27 @@ export const useQueryData = () => {
     return { nodes, edges }
   }
 
-  const initialNodes = computed<{ nodes: TDisplayedNode[]; edges: Edge[] }>(() => {
+  const initialNodes = computed<TDisplayedGraph>(() => {
     // TODO: handle loading and error states
     console.log("result: ", data.value)
-    if (!data.value)
-      return {
-        nodes: [],
-        edges: [],
-      }
+    const initialStates = {
+      nodes: [],
+      edges: [],
+    }
+
+    if (!data.value) {
+      return initialStates
+    }
 
     const result = safeParseFlow(data.value)
     if (!result.success) {
       console.error("Flow parse error:", result.error)
-      return {
-        nodes: [],
-        edges: [],
-      }
+      return initialStates
     }
 
     const { nodes = [], edges = [] } = toVueFlow(result.data)
     console.log("Parsed nodes and edges:", { nodes, edges })
     return { nodes, edges }
-  })
-
-  watch(initialNodes, (newNodes) => {
-    console.log("Parsed nodes:", newNodes)
   })
 
   return {

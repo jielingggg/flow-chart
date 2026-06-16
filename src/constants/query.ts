@@ -1,12 +1,8 @@
-import type { QueryClientConfig } from "@tanstack/vue-query"
+import type { QueryOptions } from "@tanstack/vue-query"
 
-export const QUERY_CONSTANTS: QueryClientConfig = {
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      networkMode: "always",
-      staleTime: Infinity,
-      gcTime: 60 * 60 * 1000,
-    },
-  },
+export const QUERY_CONSTANTS: Partial<QueryOptions> = {
+  refetchOnWindowFocus: false,
+  networkMode: "always",
+  staleTime: Infinity,
+  gcTime: 60 * 60 * 1000,
 }
