@@ -59,12 +59,6 @@ const info = computed(() => getNodeConfig(props.type).display(props.data))
       white-space: nowrap;
       text-overflow: ellipsis;
     }
-
-    textarea {
-      resize: none;
-      line-clamp: 1;
-      text-overflow: ellipsis;
-    }
   }
 }
 </style>
