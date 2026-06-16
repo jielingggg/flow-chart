@@ -11,9 +11,12 @@ export const useDataNode = (node?: GraphNode) => {
   const selectedNodes = computed(() => (node ? [node] : (getSelectedNodes.value ?? [])))
 
   const selectedSingleNode = computed(() => selectedNodes.value[0])
-  const showPanel = computed(() => selectedNodes.value.length === 1)
 
   const nodeType = computed(() => (selectedSingleNode.value?.type ?? "") as TCustomTypes)
+
+  const showPanel = computed(
+    () => selectedNodes.value.length === 1 && nodeType.value !== "dateTimeConnector",
+  )
 
   const nodeDisplay = computed(() =>
     getNodeConfig(nodeType.value).display(selectedSingleNode.value?.data),
@@ -53,5 +56,5 @@ export const useDataNode = (node?: GraphNode) => {
     removeNodes(selectedNodes.value)
   }
 
-  return { nodeDisplay, showPanel, icon, title, desc, isFieldEditable, onDelete }
+  return { showPanel, icon, title, desc, isFieldEditable, onDelete }
 }
