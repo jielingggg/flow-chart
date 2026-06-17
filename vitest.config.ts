@@ -9,6 +9,15 @@ export default mergeConfig(
       environment: "jsdom",
       exclude: [...configDefaults.exclude, "e2e/**"],
       root: fileURLToPath(new URL("./", import.meta.url)),
+      coverage: {
+        enabled: true,
+        provider: "v8",
+        reporter: ["text", "text-summary", "json", "html"],
+        include: ["src/**/*.{js,ts,vue}"],
+      },
+      typecheck: {
+        enabled: true,
+      },
     },
   }),
 )
