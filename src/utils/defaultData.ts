@@ -1,8 +1,8 @@
-import type { TCustomTypes } from "@/types/schemas/dataNodes"
+import goldDustIcon from "@/assets/icons/gold-dust.png"
 import greenBubbleIcon from "@/assets/icons/green-bubble.png"
 import pinkBubbleIcon from "@/assets/icons/pink-bubble.png"
 import purpleBubbleIcon from "@/assets/icons/purple-bubble.png"
-import goldDustIcon from "@/assets/icons/gold-dust.png"
+import type { TCustomTypes } from "@/types/schemas/dataNodes"
 
 export const getNodeIcon = (type: TCustomTypes) => {
   switch (type) {

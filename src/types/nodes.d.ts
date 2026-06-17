@@ -1,12 +1,15 @@
-import type { TCustomTypes, TFlow } from "@/types/schemas/dataNodes"
+import type { EDITABLE_FIELD_TYPES } from "@/constants/nodeTypes"
+import type { TCustomTypes, TFlow, TTimeSlot } from "@/types/schemas/dataNodes"
 import type { useVueFlow } from "@vue-flow/core"
 
 export type TNodeDisplayData = {
   title: string
   desc?: string
+  times?: TTimeSlot
 }
 
 export type TEditableFieldKeys = keyof TNodeDisplayData
+export type TEditableFieldTypes = ReturnType<typeof EDITABLE_FIELD_TYPES>
 
 export type TUpdateNodeDataFn = ReturnType<typeof useVueFlow>["updateNodeData"]
 
@@ -15,7 +18,7 @@ export type NodeConfig = {
   updateInfo?: (
     id: string,
     key: TEditableFieldKeys,
-    value: string,
+    value: unknown,
     updateNodeData: TUpdateNodeDataFn,
   ) => void
 }
