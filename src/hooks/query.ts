@@ -26,10 +26,6 @@ export const useQueryData = () => {
     return !data.some((n) => n.id === node.parentId)
   }
 
-  // const isEndingNode = (node: TFlow[number], data: TFlow): boolean => {
-  //   return !data.some((n) => n.parentId === node.id)
-  // }
-
   const toVueFlow = (data: TFlow): TDisplayedGraph => {
     // Build a lookup map: { [id]: node } for quick access by id
     const nodeMap = Object.fromEntries(data.map((n) => [n.id, n]))
