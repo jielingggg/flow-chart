@@ -12,7 +12,6 @@ export const useQueryData = () => {
     )
       .then((response) => response.json())
       .catch((error) => console.error(error))
-    console.log("1st result: ", result)
     return result
   }
 
@@ -20,7 +19,6 @@ export const useQueryData = () => {
     ...QUERY_CONSTANTS,
     queryKey: ["dataNodes"],
     queryFn: fetchInitialNodes,
-    // queryFn: () => Promise.resolve(sampleData), // TODO: Use sample data for testing
   })
 
   const isStartingNode = (node: TFlow[number], data: TFlow): boolean => {
@@ -111,7 +109,6 @@ export const useQueryData = () => {
 
   const initialNodes = computed<TDisplayedGraph>(() => {
     // TODO: handle loading and error states
-    console.log("result: ", data.value)
     const initialStates = {
       nodes: [],
       edges: [],
