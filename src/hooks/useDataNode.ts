@@ -5,18 +5,41 @@ import { getNodeIcon } from "@/utils/defaultData"
 import { getNodeConfig } from "@/utils/nodes"
 import { useVueFlow, type GraphNode } from "@vue-flow/core"
 import { computed } from "vue"
+import { useRoute, useRouter } from "vue-router"
 
 export const useDataNode = (node?: GraphNode) => {
-  const { getSelectedNodes, updateNodeData, removeNodes } = useVueFlow()
+  const { getSelectedNodes, updateNodeData, removeNodes, onNodeClick, onPaneClick, findNode } =
+    useVueFlow()
 
-  const selectedNodes = computed(() => (node ? [node] : (getSelectedNodes.value ?? [])))
+  const router = useRouter()
+  const route = useRoute()
 
-  const selectedSingleNode = computed(() => selectedNodes.value[0])
+  onNodeClick(({ node }) => {
+    router.replace({ query: { ...route.query, nodeId: node.id } })
+  })
+
+  onPaneClick(() => {
+    const query = { ...route.query }
+    delete query.nodeId
+    router.replace({ query })
+  })
+
+  const selectedSingleNode = computed(() => {
+    if (node) return node
+
+    const nodeId = (route.query.nodeId ?? "") as string
+    if (!nodeId) {
+      return
+    }
+
+    const nodeFromUrl = findNode(nodeId)
+    return nodeFromUrl
+  })
 
   const nodeType = computed(() => (selectedSingleNode.value?.type ?? "") as TCustomTypes)
 
   const showPanel = computed(
-    () => selectedNodes.value.length === 1 && nodeType.value !== "dateTimeConnector",
+    () => selectedSingleNode.value && nodeType.value !== "dateTimeConnector",
   )
 
   const nodeDisplay = computed(() =>
@@ -73,7 +96,7 @@ export const useDataNode = (node?: GraphNode) => {
   const icon = computed(() => getNodeIcon(nodeType.value))
 
   const onDelete = () => {
-    removeNodes(selectedNodes.value)
+    removeNodes(getSelectedNodes.value)
   }
 
   return { showPanel, icon, title, desc, dateTime, updateTime, isFieldEditable, onDelete }
