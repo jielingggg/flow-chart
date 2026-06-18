@@ -12,7 +12,7 @@ export const nodeConfigs: Partial<Record<TCustomTypes, NodeConfig>> = {
   dateTimeConnector: {
     display: (data) => {
       const parsed = DateTimeConnectorSchema.safeParse(data)
-      if (!parsed.success) return { title: "", desc: "" }
+      if (!parsed.success) return { title: "" }
       return { title: parsed.data.label ?? "" }
     },
   },
