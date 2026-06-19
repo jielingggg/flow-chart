@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "npx madge --circular --extensions ts,tsx src && run-s type-check build-only",
     "preview": "vite preview",
     "test": "vitest --coverage",
     "test:ui": "vitest --ui",
@@ -34,6 +34,7 @@
     "@vitejs/plugin-vue-jsx": "^5.1.3",
     "@vitest/coverage-v8": "^4.0.18",
     "@vitest/eslint-plugin": "^1.6.6",
+    "@vitest/ui": "^4.1.8",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
