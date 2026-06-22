@@ -1,6 +1,6 @@
 import type { EDITABLE_FIELD_TYPES } from "@/constants/nodeTypes"
-import type { TCustomTypes, TFlow, TTimeSlot } from "@/types/schemas/dataNodes"
-import type { useVueFlow } from "@vue-flow/core"
+import type { TTimeSlot } from "@/types/schemas/dataNodes"
+import type { Edge, Node, useVueFlow } from "@vue-flow/core"
 
 export type TNodeDisplayData = {
   title: string
@@ -25,16 +25,7 @@ export type NodeConfig = {
 
 // ─── Displayed Nodes and Edges ────────────────────────────────────────────────
 
-export type TDisplayedNode = {
-  id: string
-  type: TCustomTypes
-  position: { x: number; y: number }
-  data: TFlow[number]["data"]
-}
-
-export type TDisplayedEdge = { id: string; source: string; target: string }
-
 export type TDisplayedGraph = {
-  nodes: TDisplayedNode[]
-  edges: TDisplayedEdge[]
+  nodes: Node[]
+  edges: Edge[]
 }
