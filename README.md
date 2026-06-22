@@ -36,6 +36,4 @@ npm run lint
 
 1. Create Nodes
 2. Complete Unit Test
-3. Enhance position-calculation method to using `@dagrejs/dagre`
-4. Store the initial and user-updated data into Pinia/LocalStorage
-5. Convert dateTimeConnector to Edge
+3. Store the initial and user-updated data into Pinia/LocalStorage

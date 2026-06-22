@@ -16,6 +16,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@dagrejs/dagre": "^3.0.0",
     "@headlessui/vue": "^1.7.23",
     "@heroicons/vue": "^2.2.0",
     "@tailwindcss/vite": "^4.3.0",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
+    "@types/dagre": "^0.7.54",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^24.10.9",
     "@vitejs/plugin-vue": "^6.0.3",

@@ -1,5 +1,5 @@
 import CustomConnector from "@/components/CustomConnector.vue"
-import type { NodeConfig, TDisplayedNode } from "@/types/nodes"
+import type { NodeConfig } from "@/types/nodes"
 import { getNodeConfig } from "@/utils/nodes"
 import type { NodeProps } from "@vue-flow/core"
 import { mount } from "@vue/test-utils"
@@ -10,7 +10,7 @@ vi.mock("@/utils/nodes", () => ({
 }))
 
 describe("CustomConnector.vue", () => {
-  const mockNodeProps: TDisplayedNode = {
+  const mockNodeProps: Partial<NodeProps> = {
     id: "node-1",
     type: "sendMessage",
     position: { x: 0, y: 0 },
